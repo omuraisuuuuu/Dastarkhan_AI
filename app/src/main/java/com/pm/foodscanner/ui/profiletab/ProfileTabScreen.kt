@@ -20,6 +20,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BrightnessAuto
+import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.NightlightRound
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.WbSunny
@@ -63,6 +64,7 @@ import com.pm.foodscanner.ui.theme.ScanGreen
 import com.pm.foodscanner.ui.theme.ScanOrange
 import com.pm.foodscanner.ui.theme.ThemeMode
 import com.pm.foodscanner.ui.theme.ThemeViewModel
+import com.pm.foodscanner.utils.LanguageManager
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -133,6 +135,14 @@ fun ProfileTabScreen(
                 uiState.profile?.let { profile ->
                     ProfileInfoCard(profile = profile)
                 }
+
+                LanguageCard(
+                    currentLanguage = uiState.currentLanguage,
+                    onLanguageChange = { language ->
+                        viewModel.setLanguage(language)
+                        LanguageManager.setLanguage(LocalContext.current, language)
+                    }
+                )
 
                 AppearanceCard(
                     themeMode = themeMode,
@@ -419,4 +429,86 @@ private fun StatItem(label: String, value: String) {
             )
         }
     }
+}
+
+@Composable
+private fun LanguageCard(
+    currentLanguage: String,
+    onLanguageChange: (String) -> Unit
+) {
+    Card(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(20.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp)
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.Language,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(22.dp)
+                )
+                Text(
+                    "Language",
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold
+                )
+            }
+            Text(
+                "Select your preferred language",
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .horizontalScroll(rememberScrollState()),
+                horizontalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                LanguageChip(
+                    selected = currentLanguage == LanguageManager.LANGUAGE_ENGLISH,
+                    onClick = { onLanguageChange(LanguageManager.LANGUAGE_ENGLISH) },
+                    label = "English"
+                )
+                LanguageChip(
+                    selected = currentLanguage == LanguageManager.LANGUAGE_RUSSIAN,
+                    onClick = { onLanguageChange(LanguageManager.LANGUAGE_RUSSIAN) },
+                    label = "Русский"
+                )
+                LanguageChip(
+                    selected = currentLanguage == LanguageManager.LANGUAGE_KAZAKH,
+                    onClick = { onLanguageChange(LanguageManager.LANGUAGE_KAZAKH) },
+                    label = "Қазақша"
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun LanguageChip(
+    selected: Boolean,
+    onClick: () -> Unit,
+    label: String
+) {
+    FilterChip(
+        selected = selected,
+        onClick = onClick,
+        label = { Text(label) },
+        shape = RoundedCornerShape(12.dp),
+        colors = FilterChipDefaults.filterChipColors(
+            selectedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+            selectedLabelColor = MaterialTheme.colorScheme.onSecondaryContainer
+        )
+    )
 }

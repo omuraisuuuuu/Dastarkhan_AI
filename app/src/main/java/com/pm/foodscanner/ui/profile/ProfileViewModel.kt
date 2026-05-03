@@ -10,6 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
+import android.util.Log
 import javax.inject.Inject
 
 data class ProfileUiState(
@@ -43,20 +44,30 @@ class ProfileViewModel @Inject constructor(
 
     private fun loadProfile() {
         viewModelScope.launch {
-            val userId = authRepository.currentUserId() ?: return@launch
-            val profile = profileRepository.getProfile(userId) ?: return@launch
-            _uiState.value = ProfileUiState(
-                weight = profile.weight?.toString() ?: "",
-                height = profile.height?.toString() ?: "",
-                age = profile.age?.toString() ?: "",
-                targetWeight = profile.targetWeight?.toString() ?: "",
-                gender = profile.gender,
-                targetDateMonths = profile.targetDateMonths?.toString() ?: "",
-                isHalal = profile.isHalal,
-                isLactoseFree = profile.isLactoseFree,
-                isVegan = profile.isVegan,
-                allergies = profile.allergies.joinToString(", ")
-            )
+            _uiState.value = _uiState.value.copy(isLoading = true)
+            val userId = authRepository.currentUserId() ?: run {
+                _uiState.value = _uiState.value.copy(isLoading = false)
+                return@launch
+            }
+            val profile = profileRepository.getProfile(userId)
+            if (profile != null) {
+                Log.d("ProfileViewModel", "Loaded profile from DB - Gender: ${profile.gender}, Weight: ${profile.weight}, Age: ${profile.age}")
+                _uiState.value = ProfileUiState(
+                    weight = profile.weight?.toString() ?: "",
+                    height = profile.height?.toString() ?: "",
+                    age = profile.age?.toString() ?: "",
+                    targetWeight = profile.targetWeight?.toString() ?: "",
+                    gender = profile.gender,
+                    targetDateMonths = profile.targetDateMonths?.toString() ?: "",
+                    isHalal = profile.isHalal,
+                    isLactoseFree = profile.isLactoseFree,
+                    isVegan = profile.isVegan,
+                    allergies = profile.allergies.joinToString(", "),
+                    isLoading = false
+                )
+            } else {
+                _uiState.value = _uiState.value.copy(isLoading = false)
+            }
         }
     }
 
@@ -64,7 +75,11 @@ class ProfileViewModel @Inject constructor(
     fun updateHeight(value: String) { _uiState.value = _uiState.value.copy(height = value) }
     fun updateAge(value: String) { _uiState.value = _uiState.value.copy(age = value) }
     fun updateTargetWeight(value: String) { _uiState.value = _uiState.value.copy(targetWeight = value) }
-    fun updateGender(value: String) { _uiState.value = _uiState.value.copy(gender = value) }
+    fun updateGender(value: String) {
+        Log.d("ProfileViewModel", "updateGender called with: $value, current state: ${_uiState.value.gender}")
+        _uiState.value = _uiState.value.copy(gender = value)
+        Log.d("ProfileViewModel", "updateGender updated to: ${_uiState.value.gender}")
+    }
     fun updateTargetDateMonths(value: String) { _uiState.value = _uiState.value.copy(targetDateMonths = value) }
     fun updateHalal(value: Boolean) { _uiState.value = _uiState.value.copy(isHalal = value) }
     fun updateLactoseFree(value: Boolean) { _uiState.value = _uiState.value.copy(isLactoseFree = value) }
@@ -77,6 +92,7 @@ class ProfileViewModel @Inject constructor(
             _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             try {
                 val state = _uiState.value
+                Log.d("ProfileViewModel", "Saving profile - Gender: ${state.gender}, Weight: ${state.weight}, Age: ${state.age}")
                 val profile = UserProfile(
                     id = userId,
                     weight = state.weight.toFloatOrNull(),
@@ -93,9 +109,12 @@ class ProfileViewModel @Inject constructor(
                         .map { it.trim() }
                         .filter { it.isNotEmpty() }
                 )
+                Log.d("ProfileViewModel", "Upserting profile object: $profile")
                 profileRepository.upsertProfile(profile)
+                Log.d("ProfileViewModel", "Profile upserted successfully")
                 _uiState.value = _uiState.value.copy(isLoading = false, isSaved = true)
             } catch (e: Exception) {
+                Log.e("ProfileViewModel", "Error saving profile", e)
                 _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     error = e.message ?: "Failed to save profile"

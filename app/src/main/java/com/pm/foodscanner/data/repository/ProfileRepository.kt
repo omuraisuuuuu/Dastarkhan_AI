@@ -21,6 +21,28 @@ class ProfileRepository @Inject constructor(
     }
 
     suspend fun upsertProfile(profile: UserProfile) {
-        supabaseClient.from("profiles").upsert(profile)
+        try {
+            val existing = getProfile(profile.id)
+            if (existing != null) {
+                supabaseClient.from("profiles").update({
+                    set("weight", profile.weight)
+                    set("height", profile.height)
+                    set("age", profile.age)
+                    set("target_weight", profile.targetWeight)
+                    set("gender", profile.gender)
+                    set("target_date_months", profile.targetDateMonths)
+                    set("is_halal", profile.isHalal)
+                    set("is_lactose_free", profile.isLactoseFree)
+                    set("is_vegan", profile.isVegan)
+                    set("allergies", profile.allergies)
+                }) {
+                    filter { eq("id", profile.id) }
+                }
+            } else {
+                supabaseClient.from("profiles").insert(profile)
+            }
+        } catch (e: Exception) {
+            throw e
+        }
     }
 }

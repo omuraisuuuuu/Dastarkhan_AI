@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DastarkhanAI</string>
+
+    <!-- Auth -->
+    <string name="login">Войти</string>
+    <string name="register">Регистрация</string>
+    <string name="email">Email</string>
+    <string name="password">Пароль</string>
+    <string name="confirm_password">Подтвердить пароль</string>
+    <string name="no_account">Нет аккаунта? Регистрация</string>
+    <string name="have_account">Уже есть аккаунт? Войти</string>
+
+    <!-- Profile -->
+    <string name="profile_setup">Настройка профиля</string>
+    <string name="body_measurements">Измерения тела</string>
+    <string name="weight_kg">Вес (кг)</string>
+    <string name="height_cm">Рост (см)</string>
+    <string name="age_years">Возраст (лет)</string>
+    <string name="target_weight_kg">Целевой вес (кг)</string>
+    <string name="goal_timeframe">Сроки достижения (месяцы, опционально)</string>
+    <string name="gender">Пол</string>
+    <string name="male">Мужской</string>
+    <string name="female">Женский</string>
+    <string name="food_preferences">Пищевые предпочтения</string>
+    <string name="halal">Халяль</string>
+    <string name="lactose_free">Без лактозы</string>
+    <string name="vegan">Веган</string>
+    <string name="allergies">Аллергии (через запятую)</string>
+    <string name="example_allergies">например: арахис, глютен, соя</string>
+    <string name="save_profile">Сохранить профиль</string>
+    <string name="language">Язык</string>
+    <string name="theme">Тема</string>
+    <string name="light_theme">Светлая</string>
+    <string name="dark_theme">Темная</string>
+    <string name="system_theme">Системная</string>
+
+    <!-- Home -->
+    <string name="what_would_you_scan">Что вы хотите отсканировать?</string>
+    <string name="scan_description">Штрихкод для товаров · Камера для блюд</string>
+    <string name="scan_barcode">Сканировать штрихкод</string>
+    <string name="scan_barcode_description">Прочитайте штрихкод товара, чтобы увидеть ингредиенты и соответствие вашей диете</string>
+    <string name="scan_meal">Сканировать блюдо</string>
+    <string name="scan_meal_description">Сфотографируйте ваше блюдо, чтобы получить информацию о калориях и питательных веществах</string>
+    <string name="welcome_back">Добро пожаловать!</string>
+    <string name="logout">Выход</string>
+
+    <!-- Scan -->
+    <string name="scanning">Сканирование…</string>
+    <string name="product_not_found">Товар не найден</string>
+    <string name="compatible">Совместимо с вашими предпочтениями</string>
+    <string name="not_compatible">Несовместимо</string>
+    <string name="take_photo">Сделать фото</string>
+    <string name="analyzing">Анализ вашего блюда…</string>
+    <string name="scan_another">Сканировать ещё</string>
+    <string name="back_to_home">Вернуться на главную</string>
+
+    <!-- Nutrition -->
+    <string name="calories">Калории</string>
+    <string name="protein">Белки</string>
+    <string name="fat">Жиры</string>
+    <string name="carbs">Углеводы</string>
+
+    <!-- Errors -->
+    <string name="error_occurred">Произошла ошибка</string>
+    <string name="camera_permission_required">Требуется разрешение на доступ к камере для сканирования</string>
+    <string name="network_error">Ошибка сети. Проверьте ваше подключение.</string>
+    <string name="retry">Повторить</string>
+</resources>

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">DastarkhanAI</string>
+
+    <!-- Auth -->
+    <string name="login">Кірісу</string>
+    <string name="register">Тіркелу</string>
+    <string name="email">Email</string>
+    <string name="password">Құпия сөз</string>
+    <string name="confirm_password">Құпия сөзді растау</string>
+    <string name="no_account">Есептік жазба жоқ па? Тіркелу</string>
+    <string name="have_account">Бұл жерде есептік жазба бар ма? Кірісу</string>
+
+    <!-- Profile -->
+    <string name="profile_setup">Профиль орнату</string>
+    <string name="body_measurements">Дене өлшемдері</string>
+    <string name="weight_kg">Салмағы (кг)</string>
+    <string name="height_cm">Бойы (см)</string>
+    <string name="age_years">Жасы (жыл)</string>
+    <string name="target_weight_kg">Мақсатты салмақ (кг)</string>
+    <string name="goal_timeframe">Мақсаттау уақыты (айлар, міндетті емес)</string>
+    <string name="gender">Жынысы</string>
+    <string name="male">Ер</string>
+    <string name="female">Әйел</string>
+    <string name="food_preferences">Тамақ ұстанымдары</string>
+    <string name="halal">Халал</string>
+    <string name="lactose_free">Лактозасыз</string>
+    <string name="vegan">Вегетариан</string>
+    <string name="allergies">Аллергиялар (үтінімен бөлінген)</string>
+    <string name="example_allergies">мысалы: жерге өндіктер, глютен, сояб</string>
+    <string name="save_profile">Профильді сақтау</string>
+    <string name="language">Тіл</string>
+    <string name="theme">Тема</string>
+    <string name="light_theme">Ашық</string>
+    <string name="dark_theme">Қараңғы</string>
+    <string name="system_theme">Жүйелік</string>
+
+    <!-- Home -->
+    <string name="what_would_you_scan">Қайда сканерлегісіңіз келеді?</string>
+    <string name="scan_description">Товар балқымасы · Тағам фотосы</string>
+    <string name="scan_barcode">Балқымасы сканерлеу</string>
+    <string name="scan_barcode_description">Өнімнің балқымасын оқып, оның құрамы мен пайдалылығын біліңіз</string>
+    <string name="scan_meal">Фотосы сканерлеу</string>
+    <string name="scan_meal_description">Тағамыңыздың суретін түсіп, құндарын және питтік құндарын анықтаңыз</string>
+    <string name="welcome_back">Қайта оралсыңыз!</string>
+    <string name="logout">Шығу</string>
+
+    <!-- Scan -->
+    <string name="scanning">Сканерлеу…</string>
+    <string name="product_not_found">Товар табылмады</string>
+    <string name="compatible">Сіздің ұстанымыңызға сәйкес</string>
+    <string name="not_compatible">Сәйкес емес</string>
+    <string name="take_photo">Фото түсіну</string>
+    <string name="analyzing">Сіздің тағамыңызды талдау…</string>
+    <string name="scan_another">Басқасын сканерлеу</string>
+    <string name="back_to_home">Басты бетке қайту</string>
+
+    <!-- Nutrition -->
+    <string name="calories">Калориялар</string>
+    <string name="protein">Ақуыздар</string>
+    <string name="fat">Майлар</string>
+    <string name="carbs">Көмірсутектер</string>
+
+    <!-- Errors -->
+    <string name="error_occurred">Қателік болды</string>
+    <string name="camera_permission_required">Сканерлеу үшін камераға рұқсат қажет</string>
+    <string name="network_error">Желі қатесі. Сіздің байланысыңызды тексеріңіз.</string>
+    <string name="retry">Қайта әрекет</string>
+</resources>

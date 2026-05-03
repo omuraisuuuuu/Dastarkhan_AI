@@ -33,9 +33,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
+import android.util.Log
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -45,6 +47,7 @@ fun ProfileSetupScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState()
     val snackbarHostState = remember { SnackbarHostState() }
+    Log.d("ProfileSetupScreen", "Rendering with state - Gender: ${uiState.gender}, Weight: ${uiState.weight}, isLoading: ${uiState.isLoading}")
 
     LaunchedEffect(uiState.isSaved) {
         if (uiState.isSaved) onProfileSaved()
@@ -59,7 +62,13 @@ fun ProfileSetupScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = { Text("Profile Setup") })
+            TopAppBar(title = {
+                Text(
+                    "Profile Setup",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold
+                )
+            })
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
@@ -67,13 +76,17 @@ fun ProfileSetupScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 24.dp)
+                .padding(horizontal = 20.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(12.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(text = "Body Measurements", style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = "Body Measurements",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold
+            )
 
             OutlinedTextField(
                 value = uiState.weight,
@@ -121,9 +134,13 @@ fun ProfileSetupScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Text(text = "Gender", style = MaterialTheme.typography.titleMedium)
+            Text(
+                text = "Gender",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 GenderButton(
                     label = "Male",
@@ -139,11 +156,15 @@ fun ProfileSetupScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
             HorizontalDivider()
-            Spacer(modifier = Modifier.height(4.dp))
+            Spacer(modifier = Modifier.height(8.dp))
 
-            Text(text = "Food Preferences", style = MaterialTheme.typography.titleLarge)
+            Text(
+                text = "Food Preferences",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.SemiBold
+            )
 
             PreferenceSwitch(label = "Halal", checked = uiState.isHalal, onCheckedChange = { viewModel.updateHalal(it) })
             PreferenceSwitch(label = "Lactose-free", checked = uiState.isLactoseFree, onCheckedChange = { viewModel.updateLactoseFree(it) })
@@ -164,7 +185,7 @@ fun ProfileSetupScreen(
 
             Button(
                 onClick = { viewModel.saveProfile() },
-                enabled = !uiState.isLoading && uiState.weight.isNotBlank(),
+                enabled = !uiState.isLoading && uiState.weight.isNotBlank() && uiState.height.isNotBlank(),
                 modifier = Modifier.fillMaxWidth().height(50.dp)
             ) {
                 if (uiState.isLoading) {
