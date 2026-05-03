@@ -74,8 +74,9 @@ fun ProfileTabScreen(
     onLogout: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
+    val context = LocalContext.current
     val themeViewModel: ThemeViewModel = hiltViewModel(
-        viewModelStoreOwner = LocalContext.current as ComponentActivity
+        viewModelStoreOwner = context as ComponentActivity
     )
     val themeMode by themeViewModel.themeMode.collectAsStateWithLifecycle()
 
@@ -140,7 +141,7 @@ fun ProfileTabScreen(
                     currentLanguage = uiState.currentLanguage,
                     onLanguageChange = { language ->
                         viewModel.setLanguage(language)
-                        LanguageManager.setLanguage(LocalContext.current, language)
+                        LanguageManager.setLanguage(context, language)
                     }
                 )
 
