@@ -15,6 +15,7 @@ import javax.inject.Inject
 data class ProfileUiState(
     val weight: String = "",
     val height: String = "",
+    val age: String = "",
     val targetWeight: String = "",
     val gender: String = "male",
     val targetDateMonths: String = "",
@@ -47,6 +48,7 @@ class ProfileViewModel @Inject constructor(
             _uiState.value = ProfileUiState(
                 weight = profile.weight?.toString() ?: "",
                 height = profile.height?.toString() ?: "",
+                age = profile.age?.toString() ?: "",
                 targetWeight = profile.targetWeight?.toString() ?: "",
                 gender = profile.gender,
                 targetDateMonths = profile.targetDateMonths?.toString() ?: "",
@@ -60,6 +62,7 @@ class ProfileViewModel @Inject constructor(
 
     fun updateWeight(value: String) { _uiState.value = _uiState.value.copy(weight = value) }
     fun updateHeight(value: String) { _uiState.value = _uiState.value.copy(height = value) }
+    fun updateAge(value: String) { _uiState.value = _uiState.value.copy(age = value) }
     fun updateTargetWeight(value: String) { _uiState.value = _uiState.value.copy(targetWeight = value) }
     fun updateGender(value: String) { _uiState.value = _uiState.value.copy(gender = value) }
     fun updateTargetDateMonths(value: String) { _uiState.value = _uiState.value.copy(targetDateMonths = value) }
@@ -71,13 +74,14 @@ class ProfileViewModel @Inject constructor(
     fun saveProfile() {
         viewModelScope.launch {
             val userId = authRepository.currentUserId() ?: return@launch
-            val state = _uiState.value
-            _uiState.value = state.copy(isLoading = true, error = null)
+            _uiState.value = _uiState.value.copy(isLoading = true, error = null)
             try {
+                val state = _uiState.value
                 val profile = UserProfile(
                     id = userId,
                     weight = state.weight.toFloatOrNull(),
                     height = state.height.toFloatOrNull(),
+                    age = state.age.toIntOrNull(),
                     targetWeight = state.targetWeight.toFloatOrNull(),
                     gender = state.gender,
                     targetDateMonths = state.targetDateMonths.toIntOrNull(),
@@ -90,9 +94,9 @@ class ProfileViewModel @Inject constructor(
                         .filter { it.isNotEmpty() }
                 )
                 profileRepository.upsertProfile(profile)
-                _uiState.value = state.copy(isLoading = false, isSaved = true)
+                _uiState.value = _uiState.value.copy(isLoading = false, isSaved = true)
             } catch (e: Exception) {
-                _uiState.value = state.copy(
+                _uiState.value = _uiState.value.copy(
                     isLoading = false,
                     error = e.message ?: "Failed to save profile"
                 )

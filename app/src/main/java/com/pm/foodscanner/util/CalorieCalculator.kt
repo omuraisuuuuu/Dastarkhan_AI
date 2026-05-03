@@ -4,26 +4,56 @@ import com.pm.foodscanner.data.model.UserProfile
 import kotlin.math.roundToInt
 
 object CalorieCalculator {
-    // Harris-Benedict BMR, assuming moderate activity (×1.55)
     fun calculateDailyCalories(profile: UserProfile): Int {
         val weight = profile.weight ?: return 2000
         val height = profile.height ?: return 2000
+        val age = profile.age ?: 30
 
         val bmr = if (profile.gender == "female") {
-            447.593 + (9.247 * weight) + (3.098 * height) - (4.330 * 30.0)
+            (10 * weight) + (6.25 * height) - (5 * age) - 161
         } else {
-            88.362 + (13.397 * weight) + (4.799 * height) - (5.677 * 30.0)
+            (10 * weight) + (6.25 * height) - (5 * age) + 5
         }
 
         val tdee = bmr * 1.55
 
         val targetWeight = profile.targetWeight
-        return if (targetWeight != null && targetWeight < weight) {
-            (tdee - 500).roundToInt().coerceAtLeast(1200)
-        } else if (targetWeight != null && targetWeight > weight) {
-            (tdee + 300).roundToInt()
-        } else {
-            tdee.roundToInt()
+        val targetDateMonths = profile.targetDateMonths
+
+        return when {
+            targetWeight == null || targetWeight == weight -> tdee.roundToInt()
+            targetWeight < weight -> calculateDeficitCalories(tdee, weight, targetWeight, targetDateMonths, profile.gender)
+            else -> calculateSurplusCalories(tdee, weight, targetWeight, targetDateMonths, profile.gender)
         }
+    }
+
+    private fun calculateDeficitCalories(tdee: Double, weight: Float, targetWeight: Float, monthsOrNull: Int?, gender: String): Int {
+        val weightDelta = weight - targetWeight
+        val totalCalorieDeficit = weightDelta * 7700
+
+        val dailyAdjustment = if (monthsOrNull != null && monthsOrNull > 0) {
+            val daysTotal = monthsOrNull * 30
+            (totalCalorieDeficit / daysTotal).roundToInt().coerceIn(-1000, 0)
+        } else {
+            -500
+        }
+
+        val result = (tdee + dailyAdjustment).roundToInt()
+        val minCalories = if (gender == "female") 1200 else 1500
+        return result.coerceAtLeast(minCalories)
+    }
+
+    private fun calculateSurplusCalories(tdee: Double, weight: Float, targetWeight: Float, monthsOrNull: Int?, gender: String): Int {
+        val weightDelta = targetWeight - weight
+        val totalCalorieSurplus = weightDelta * 7700
+
+        val dailyAdjustment = if (monthsOrNull != null && monthsOrNull > 0) {
+            val daysTotal = monthsOrNull * 30
+            (totalCalorieSurplus / daysTotal).roundToInt().coerceIn(0, 500)
+        } else {
+            300
+        }
+
+        return (tdee + dailyAdjustment).roundToInt()
     }
 }

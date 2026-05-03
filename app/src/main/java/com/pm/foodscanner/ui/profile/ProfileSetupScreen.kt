@@ -94,6 +94,15 @@ fun ProfileSetupScreen(
             )
 
             OutlinedTextField(
+                value = uiState.age,
+                onValueChange = { viewModel.updateAge(it) },
+                label = { Text("Age (years)") },
+                singleLine = true,
+                keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number, imeAction = ImeAction.Next),
+                modifier = Modifier.fillMaxWidth()
+            )
+
+            OutlinedTextField(
                 value = uiState.targetWeight,
                 onValueChange = { viewModel.updateTargetWeight(it) },
                 label = { Text("Target Weight (kg)") },

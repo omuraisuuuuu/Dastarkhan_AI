@@ -8,6 +8,7 @@ data class UserProfile(
     val id: String = "",
     val weight: Float? = null,
     val height: Float? = null,
+    val age: Int? = null,
     @SerialName("target_weight")
     val targetWeight: Float? = null,
     val gender: String = "male",

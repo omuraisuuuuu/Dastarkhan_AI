@@ -387,12 +387,12 @@ private fun ProfileInfoCard(profile: com.pm.foodscanner.data.model.UserProfile) 
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 StatItem("Weight", profile.weight?.let { "${"%.1f".format(it)} kg" } ?: "—")
                 StatItem("Height", profile.height?.let { "${"%.0f".format(it)} cm" } ?: "—")
-                StatItem("Target", profile.targetWeight?.let { "${"%.1f".format(it)} kg" } ?: "—")
+                StatItem("Age", profile.age?.let { "$it y.o." } ?: "—")
             }
             Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween) {
                 StatItem("Gender", if (profile.gender == "female") "Female" else "Male")
+                StatItem("Target", profile.targetWeight?.let { "${"%.1f".format(it)} kg" } ?: "—")
                 StatItem("Goal time", profile.targetDateMonths?.let { "$it mo" } ?: "—")
-                StatItem("", "")
             }
         }
     }
