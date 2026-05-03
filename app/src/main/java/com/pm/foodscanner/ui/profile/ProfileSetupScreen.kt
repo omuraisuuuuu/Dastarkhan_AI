@@ -33,7 +33,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
@@ -62,13 +61,7 @@ fun ProfileSetupScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(title = {
-                Text(
-                    "Profile Setup",
-                    style = MaterialTheme.typography.titleLarge,
-                    fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold
-                )
-            })
+            TopAppBar(title = { Text("Profile Setup") })
         },
         snackbarHost = { SnackbarHost(snackbarHostState) }
     ) { padding ->
@@ -76,17 +69,13 @@ fun ProfileSetupScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(padding)
-                .padding(horizontal = 20.dp)
+                .padding(horizontal = 24.dp)
                 .verticalScroll(rememberScrollState()),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Spacer(modifier = Modifier.height(8.dp))
 
-            Text(
-                text = "Body Measurements",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = androidx.compose.ui.text.font.FontWeight.SemiBold
-            )
+            Text(text = "Body Measurements", style = MaterialTheme.typography.titleLarge)
 
             OutlinedTextField(
                 value = uiState.weight,
@@ -134,13 +123,9 @@ fun ProfileSetupScreen(
                 modifier = Modifier.fillMaxWidth()
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
-            Text(
-                text = "Gender",
-                style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.SemiBold
-            )
+            Text(text = "Gender", style = MaterialTheme.typography.titleMedium)
             Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
                 GenderButton(
                     label = "Male",
@@ -156,15 +141,11 @@ fun ProfileSetupScreen(
                 )
             }
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
             HorizontalDivider()
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(modifier = Modifier.height(4.dp))
 
-            Text(
-                text = "Food Preferences",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.SemiBold
-            )
+            Text(text = "Food Preferences", style = MaterialTheme.typography.titleLarge)
 
             PreferenceSwitch(label = "Halal", checked = uiState.isHalal, onCheckedChange = { viewModel.updateHalal(it) })
             PreferenceSwitch(label = "Lactose-free", checked = uiState.isLactoseFree, onCheckedChange = { viewModel.updateLactoseFree(it) })

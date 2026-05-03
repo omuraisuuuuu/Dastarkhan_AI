@@ -1,6 +1,5 @@
 package com.pm.foodscanner
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,19 +16,12 @@ import com.pm.foodscanner.navigation.AppNavigation
 import com.pm.foodscanner.ui.theme.FoodScannerTheme
 import com.pm.foodscanner.ui.theme.ThemeMode
 import com.pm.foodscanner.ui.theme.ThemeViewModel
-import com.pm.foodscanner.utils.LanguageManager
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
 
     private val themeViewModel: ThemeViewModel by viewModels()
-
-    override fun attachBaseContext(newBase: Context) {
-        val savedLanguage = LanguageManager.getSavedLanguage(newBase)
-        val updatedContext = LanguageManager.applyLanguage(newBase, savedLanguage)
-        super.attachBaseContext(updatedContext)
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -50,9 +42,5 @@ class MainActivity : ComponentActivity() {
                 }
             }
         }
-    }
-
-    fun recreateForLanguageChange() {
-        recreate()
     }
 }

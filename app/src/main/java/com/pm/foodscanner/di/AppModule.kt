@@ -1,6 +1,5 @@
 package com.pm.foodscanner.di
 
-import android.content.Context
 import com.pm.foodscanner.BuildConfig
 import com.pm.foodscanner.data.local.LocalFoodClassifier
 import com.pm.foodscanner.data.remote.HuggingFaceApi
@@ -14,7 +13,6 @@ import com.pm.foodscanner.data.repository.ProfileRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.github.jan.supabase.SupabaseClient
 import io.github.jan.supabase.auth.Auth
@@ -30,12 +28,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object AppModule {
-
-    @Provides
-    @Singleton
-    fun provideContext(@ApplicationContext context: Context): Context {
-        return context
-    }
 
     @Provides
     @Singleton

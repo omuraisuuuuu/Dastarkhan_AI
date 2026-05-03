@@ -20,7 +20,6 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.BrightnessAuto
-import androidx.compose.material.icons.outlined.Language
 import androidx.compose.material.icons.outlined.NightlightRound
 import androidx.compose.material.icons.outlined.Palette
 import androidx.compose.material.icons.outlined.WbSunny
@@ -64,11 +63,6 @@ import com.pm.foodscanner.ui.theme.ScanGreen
 import com.pm.foodscanner.ui.theme.ScanOrange
 import com.pm.foodscanner.ui.theme.ThemeMode
 import com.pm.foodscanner.ui.theme.ThemeViewModel
-import com.pm.foodscanner.MainActivity
-import com.pm.foodscanner.utils.LanguageManager
-import com.pm.foodscanner.utils.LanguageManager.LANGUAGE_ENGLISH
-import com.pm.foodscanner.utils.LanguageManager.LANGUAGE_KAZAKH
-import com.pm.foodscanner.utils.LanguageManager.LANGUAGE_RUSSIAN
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -78,9 +72,8 @@ fun ProfileTabScreen(
     onLogout: () -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    val context = LocalContext.current
     val themeViewModel: ThemeViewModel = hiltViewModel(
-        viewModelStoreOwner = context as ComponentActivity
+        viewModelStoreOwner = LocalContext.current as ComponentActivity
     )
     val themeMode by themeViewModel.themeMode.collectAsStateWithLifecycle()
 
@@ -140,17 +133,6 @@ fun ProfileTabScreen(
                 uiState.profile?.let { profile ->
                     ProfileInfoCard(profile = profile)
                 }
-
-                LanguageCard(
-                    currentLanguage = uiState.currentLanguage,
-                    onLanguageChange = { language ->
-                        if (language != uiState.currentLanguage) {
-                            LanguageManager.saveLanguage(context, language)
-                            viewModel.setLanguage(language)
-                            (context as? MainActivity)?.recreateForLanguageChange()
-                        }
-                    }
-                )
 
                 AppearanceCard(
                     themeMode = themeMode,
@@ -437,86 +419,4 @@ private fun StatItem(label: String, value: String) {
             )
         }
     }
-}
-
-@Composable
-private fun LanguageCard(
-    currentLanguage: String,
-    onLanguageChange: (String) -> Unit
-) {
-    Card(
-        modifier = Modifier.fillMaxWidth(),
-        shape = RoundedCornerShape(20.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.surfaceContainerLow
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp)
-    ) {
-        Column(
-            modifier = Modifier.padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(14.dp)
-        ) {
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(10.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Outlined.Language,
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.size(22.dp)
-                )
-                Text(
-                    "Language",
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold
-                )
-            }
-            Text(
-                "Select your preferred language",
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .horizontalScroll(rememberScrollState()),
-                horizontalArrangement = Arrangement.spacedBy(8.dp)
-            ) {
-                LanguageChip(
-                    selected = currentLanguage == LANGUAGE_ENGLISH,
-                    onClick = { onLanguageChange(LANGUAGE_ENGLISH) },
-                    label = "English"
-                )
-                LanguageChip(
-                    selected = currentLanguage == LANGUAGE_RUSSIAN,
-                    onClick = { onLanguageChange(LANGUAGE_RUSSIAN) },
-                    label = "Русский"
-                )
-                LanguageChip(
-                    selected = currentLanguage == LANGUAGE_KAZAKH,
-                    onClick = { onLanguageChange(LANGUAGE_KAZAKH) },
-                    label = "Қазақша"
-                )
-            }
-        }
-    }
-}
-
-@Composable
-private fun LanguageChip(
-    selected: Boolean,
-    onClick: () -> Unit,
-    label: String
-) {
-    FilterChip(
-        selected = selected,
-        onClick = onClick,
-        label = { Text(label) },
-        shape = RoundedCornerShape(12.dp),
-        colors = FilterChipDefaults.filterChipColors(
-            selectedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-            selectedLabelColor = MaterialTheme.colorScheme.onSecondaryContainer
-        )
-    )
 }
