@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Food Scanner</string>
+
+    <!-- Auth -->
+    <string name="login">Log In</string>
+    <string name="register">Register</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="confirm_password">Confirm Password</string>
+    <string name="no_account">Don\'t have an account? Register</string>
+    <string name="have_account">Already have an account? Log In</string>
+
+    <!-- Profile -->
+    <string name="profile_setup">Profile Setup</string>
+    <string name="weight_kg">Weight (kg)</string>
+    <string name="height_cm">Height (cm)</string>
+    <string name="target_weight_kg">Target Weight (kg)</string>
+    <string name="food_preferences">Food Preferences</string>
+    <string name="halal">Halal</string>
+    <string name="lactose_free">Lactose-free</string>
+    <string name="vegan">Vegan</string>
+    <string name="allergies">Allergies (comma-separated)</string>
+    <string name="save_profile">Save Profile</string>
+
+    <!-- Home -->
+    <string name="scan_barcode">Scan Barcode</string>
+    <string name="scan_meal">Scan Meal</string>
+    <string name="welcome_back">Welcome back!</string>
+    <string name="logout">Log Out</string>
+
+    <!-- Scan -->
+    <string name="scanning">Scanning…</string>
+    <string name="product_not_found">Product not found</string>
+    <string name="compatible">Compatible with your preferences</string>
+    <string name="not_compatible">Not compatible</string>
+    <string name="take_photo">Take Photo</string>
+    <string name="analyzing">Analyzing your meal…</string>
+    <string name="scan_another">Scan Another</string>
+    <string name="back_to_home">Back to Home</string>
+
+    <!-- Nutrition -->
+    <string name="calories">Calories</string>
+    <string name="protein">Protein</string>
+    <string name="fat">Fat</string>
+    <string name="carbs">Carbs</string>
+
+    <!-- Errors -->
+    <string name="error_occurred">An error occurred</string>
+    <string name="camera_permission_required">Camera permission is required to scan</string>
+    <string name="network_error">Network error. Please check your connection.</string>
+    <string name="retry">Retry</string>
+</resources>

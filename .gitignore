@@ -1,0 +1,24 @@
+*.iml
+.gradle
+/local.properties
+local.properties
+/.idea
+.DS_Store
+/build
+/app/build
+/captures
+.externalNativeBuild
+.cxx
+/GUIDE_RU.md
+*.apk
+*.aab
+*.hprof
+.vscode/
+/scripts/
+.claude/
+tflite_output/
+.kotlin/
+
+# Root-level ONNX export artifacts (TFLite in assets is the app runtime model)
+/*.onnx
+/*.onnx.data
