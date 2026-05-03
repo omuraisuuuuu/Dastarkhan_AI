@@ -1,17 +1,21 @@
 package com.pm.foodscanner.ui.profiletab
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.pm.foodscanner.data.datastore.PreferencesDataStore
 import com.pm.foodscanner.data.model.UserProfile
 import com.pm.foodscanner.data.repository.AuthRepository
 import com.pm.foodscanner.data.repository.FoodHistoryRepository
 import com.pm.foodscanner.data.repository.ProfileRepository
 import com.pm.foodscanner.ui.theme.ThemeMode
 import com.pm.foodscanner.util.CalorieCalculator
+import com.pm.foodscanner.utils.LanguageManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
 import android.util.Log
 import javax.inject.Inject
@@ -32,22 +36,42 @@ data class ProfileTabUiState(
 class ProfileTabViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val profileRepository: ProfileRepository,
-    private val historyRepository: FoodHistoryRepository
+    private val historyRepository: FoodHistoryRepository,
+    private val context: Context
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(ProfileTabUiState())
     val uiState: StateFlow<ProfileTabUiState> = _uiState.asStateFlow()
 
     init {
+        loadLanguageAndTheme()
         loadData()
+    }
+
+    private fun loadLanguageAndTheme() {
+        viewModelScope.launch {
+            val language = PreferencesDataStore.getLanguage(context).firstOrNull() ?: LanguageManager.LANGUAGE_ENGLISH
+            val theme = PreferencesDataStore.getThemeMode(context).firstOrNull() ?: ThemeMode.System
+            _uiState.value = _uiState.value.copy(
+                currentLanguage = language,
+                currentTheme = theme
+            )
+        }
     }
 
     fun setLanguage(language: String) {
         _uiState.value = _uiState.value.copy(currentLanguage = language)
+        viewModelScope.launch {
+            PreferencesDataStore.setLanguage(context, language)
+            LanguageManager.setLanguage(context, language)
+        }
     }
 
     fun setTheme(theme: ThemeMode) {
         _uiState.value = _uiState.value.copy(currentTheme = theme)
+        viewModelScope.launch {
+            PreferencesDataStore.setThemeMode(context, theme)
+        }
     }
 
     fun loadData() {

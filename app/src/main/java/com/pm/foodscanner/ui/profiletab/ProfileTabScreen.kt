@@ -64,7 +64,9 @@ import com.pm.foodscanner.ui.theme.ScanGreen
 import com.pm.foodscanner.ui.theme.ScanOrange
 import com.pm.foodscanner.ui.theme.ThemeMode
 import com.pm.foodscanner.ui.theme.ThemeViewModel
-import com.pm.foodscanner.utils.LanguageManager
+import com.pm.foodscanner.utils.LanguageManager.LANGUAGE_ENGLISH
+import com.pm.foodscanner.utils.LanguageManager.LANGUAGE_KAZAKH
+import com.pm.foodscanner.utils.LanguageManager.LANGUAGE_RUSSIAN
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -141,7 +143,6 @@ fun ProfileTabScreen(
                     currentLanguage = uiState.currentLanguage,
                     onLanguageChange = { language ->
                         viewModel.setLanguage(language)
-                        LanguageManager.setLanguage(context, language)
                     }
                 )
 
@@ -477,18 +478,18 @@ private fun LanguageCard(
                 horizontalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 LanguageChip(
-                    selected = currentLanguage == LanguageManager.LANGUAGE_ENGLISH,
-                    onClick = { onLanguageChange(LanguageManager.LANGUAGE_ENGLISH) },
+                    selected = currentLanguage == LANGUAGE_ENGLISH,
+                    onClick = { onLanguageChange(LANGUAGE_ENGLISH) },
                     label = "English"
                 )
                 LanguageChip(
-                    selected = currentLanguage == LanguageManager.LANGUAGE_RUSSIAN,
-                    onClick = { onLanguageChange(LanguageManager.LANGUAGE_RUSSIAN) },
+                    selected = currentLanguage == LANGUAGE_RUSSIAN,
+                    onClick = { onLanguageChange(LANGUAGE_RUSSIAN) },
                     label = "Русский"
                 )
                 LanguageChip(
-                    selected = currentLanguage == LanguageManager.LANGUAGE_KAZAKH,
-                    onClick = { onLanguageChange(LanguageManager.LANGUAGE_KAZAKH) },
+                    selected = currentLanguage == LANGUAGE_KAZAKH,
+                    onClick = { onLanguageChange(LANGUAGE_KAZAKH) },
                     label = "Қазақша"
                 )
             }
