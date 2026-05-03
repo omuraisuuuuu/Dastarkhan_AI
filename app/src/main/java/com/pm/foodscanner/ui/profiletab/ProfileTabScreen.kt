@@ -64,6 +64,8 @@ import com.pm.foodscanner.ui.theme.ScanGreen
 import com.pm.foodscanner.ui.theme.ScanOrange
 import com.pm.foodscanner.ui.theme.ThemeMode
 import com.pm.foodscanner.ui.theme.ThemeViewModel
+import com.pm.foodscanner.MainActivity
+import com.pm.foodscanner.utils.LanguageManager
 import com.pm.foodscanner.utils.LanguageManager.LANGUAGE_ENGLISH
 import com.pm.foodscanner.utils.LanguageManager.LANGUAGE_KAZAKH
 import com.pm.foodscanner.utils.LanguageManager.LANGUAGE_RUSSIAN
@@ -142,7 +144,11 @@ fun ProfileTabScreen(
                 LanguageCard(
                     currentLanguage = uiState.currentLanguage,
                     onLanguageChange = { language ->
-                        viewModel.setLanguage(language)
+                        if (language != uiState.currentLanguage) {
+                            LanguageManager.saveLanguage(context, language)
+                            viewModel.setLanguage(language)
+                            (context as? MainActivity)?.recreateForLanguageChange()
+                        }
                     }
                 )
 

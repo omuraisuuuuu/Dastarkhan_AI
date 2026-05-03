@@ -49,21 +49,19 @@ class ProfileTabViewModel @Inject constructor(
     }
 
     private fun loadLanguageAndTheme() {
+        val language = LanguageManager.getSavedLanguage(context)
+        _uiState.value = _uiState.value.copy(currentLanguage = language)
         viewModelScope.launch {
-            val language = PreferencesDataStore.getLanguage(context).firstOrNull() ?: LanguageManager.LANGUAGE_ENGLISH
             val theme = PreferencesDataStore.getThemeMode(context).firstOrNull() ?: ThemeMode.System
-            _uiState.value = _uiState.value.copy(
-                currentLanguage = language,
-                currentTheme = theme
-            )
+            _uiState.value = _uiState.value.copy(currentTheme = theme)
         }
     }
 
     fun setLanguage(language: String) {
         _uiState.value = _uiState.value.copy(currentLanguage = language)
+        LanguageManager.saveLanguage(context, language)
         viewModelScope.launch {
             PreferencesDataStore.setLanguage(context, language)
-            LanguageManager.setLanguage(context, language)
         }
     }
 

@@ -121,3 +121,10 @@ DastarkhanAI/
 ## License
 
 This project is licensed under the MIT License — see the [LICENSE](LICENSE) file.
+
+## Team
+
+- 230103322 — Igimbayeva Aisulu
+- 230103055 — Ospanova Merey
+- 230103231 — Kunuspekova Adel
+- 230103292 — Abdiraman Madina
